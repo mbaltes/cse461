@@ -8,6 +8,7 @@
 
 // Constructor
 PasswordFile::PasswordFile(std::string filename) {
+    this->filename = filename;
     std::ifstream infile(filename.c_str());
     std::string line, temp1, temp2;
     int counter = 0;
@@ -15,27 +16,47 @@ PasswordFile::PasswordFile(std::string filename) {
         std::istringstream word(line);
         word >> temp1 >> temp2;
         user.push_back(temp1);
-        password.push_back(temp2);
+        password.push_back(encrypt(temp2));
     }
     infile.close();
 }
 
 void PasswordFile::addpw(std::string newUser, std::string newPassword) {
-
+    // Verify user doesn't exist, then add.
+    auto iter = std::find(user.begin(), user.end(), newUser);
+    if (iter == user.end()) {
+        // User not found. OK to add.
+        user.push_back(newUser);
+        password.push_back(encrypt(newPassword));
+        synch();
+    } else {
+        // User already exits.
+        std::cout << "Cannot add. User " << newUser << " already exists." << std::endl;
+    }
+    
 }
 
 bool PasswordFile::checkpw(std::string usr, std::string pwd) {
+    std::string encryptedPwd = encrypt(pwd);
     auto iter = std::find(user.begin(), user.end(), usr);
     if (iter == user.end()) {
         // not in vector
         return false;
     } else {
         int index = std::distance(user.begin(), iter);
-        if (password[index] == pwd) {
+        if (password[index] == encryptedPwd) {
             return true;
         }
         return false;
     }
+}
+
+void PasswordFile::synch() {
+    std::ofstream outfile(this->filename);
+    for (int i = 0; i < user.size(); i++) {
+        outfile << user[i] << " " << decrypt(password[i]) << std::endl;
+    }
+    outfile.close();
 }
 
 int PasswordFile::salt = 1;
