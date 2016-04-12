@@ -1,4 +1,10 @@
-// PasswordFile.h header
+/*
+    @author: Mark Baltes
+    @file: PasswordFile.h
+
+    Header file for PasswordFile class.
+
+*/
 
 #ifndef PASSWORDFILE_H
 #define PASSWORDFILE_H

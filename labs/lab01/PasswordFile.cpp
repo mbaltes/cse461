@@ -1,4 +1,10 @@
-// PasswordFile.cpp implementation file
+/*
+    @author: Mark Baltes
+    @file: PasswordFile.cpp
+
+    Implementation for PasswordFile class.
+
+*/
 
 #include <iostream>
 #include <fstream>

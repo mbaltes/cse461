@@ -1,4 +1,10 @@
-// 
+/*
+    @author: Mark Baltes
+    @file: password_driver.cpp
+
+    Test file for PasswordFile class.
+
+*/
 
 #include <iostream>
 #include "PasswordFile.h"
