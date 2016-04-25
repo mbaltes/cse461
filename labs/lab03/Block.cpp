@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-std::vector<string> block(std::string buffer, int b) {
-    std::vector<string> blocks;
+std::vector<std::string> block(std::string buffer, int b) {
+    std::vector<std::string> blocks;
     int numberOfBlocks = 0;
 
     if (buffer.length() % b == 0) {

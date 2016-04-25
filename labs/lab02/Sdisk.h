@@ -4,6 +4,9 @@
 //
 // Sdisk class description.
 
+#ifndef SDISK_H
+#define SDISK_H
+
 #include <string>
 
 class Sdisk {
@@ -18,3 +21,5 @@ private:
     int numberOfBlocks;
     int blockSize;
 };
+
+#endif
