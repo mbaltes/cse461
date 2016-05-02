@@ -5,8 +5,8 @@
 // Driver for Filesys.
 
 #include "Filesys.h"
-//#include <stdexcept>
-//#include <iostream>
+#include <stdexcept>
+#include <iostream>
 
 // int main() {
 //     try {
@@ -20,6 +20,14 @@
 // }
 
 int main() {
-    Filesys fs("test4", 16, 32);
-    //fs.test();
+    try {
+        Filesys fs("test4", 16, 32);
+        //fs.newFile("test");
+        //fs.newFile("test1");
+        fs.newFile("hi");
+        //fs.test();
+    } catch (const std::invalid_argument& e) {
+        std::cout << e.what() << '\n';
+        return -1;
+    }
 }

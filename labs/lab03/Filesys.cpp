@@ -105,7 +105,25 @@ int Filesys::fssynch() {
 }
 
 int Filesys::newFile(std::string file) {
-    //
+    // Need to make sure the filename length is < 6
+    if (file.length() > 5) {
+        throw std::invalid_argument("Cannot add file. Filename too long.");
+        return 0;
+    }
+    for (int i = 0; i < fileName.size(); i++) {
+        // Don't allow overwriting of files.
+        if (fileName[i] == file) {
+            throw std::invalid_argument("File already exists.");
+            return 0;
+        } else if (fileName[i] == "xxxxx") { // File available.
+            fileName[i] = file;
+            fssynch();
+            return 1;
+        }
+    }
+    // If here, there is no free space available.
+    throw std::invalid_argument("No free space for additional files.");
+    return 0;
 }
 
 int Filesys::rmFile(std::string file) {
@@ -113,7 +131,9 @@ int Filesys::rmFile(std::string file) {
 }
 
 int Filesys::getFirstBlock(std::string file) {
-    //
+    for (int i = 0; i < fileName.size(); i++) {
+        //
+    }
 }
 
 int Filesys::addBlock(std::string file, std::string block) {
