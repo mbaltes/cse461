@@ -21,5 +21,5 @@
 
 int main() {
     Filesys fs("test4", 16, 32);
-    fs.test();
+    //fs.test();
 }

@@ -83,9 +83,9 @@ int Filesys::fssynch() {
     buffer = outstream.str();
     // Block before writing
     std::vector<std::string> blocks = block(buffer, getBlocksize());
-    std::cout << "blocks size: " << blocks.size() << '\n';
+    //std::cout << "blocks size: " << blocks.size() << '\n';
     for (int i = 1; i <= blocks.size(); i++) {
-        std::cout << blocks[i-1] << '\n';
+        //std::cout << blocks[i-1] << '\n';
         putBlock(i, blocks[i - 1]);
     }
 
@@ -95,10 +95,10 @@ int Filesys::fssynch() {
                    << std::setw(5) << firstBlock[i] << " ";
     }
     buffer = outstream2.str();
-    std::cout << "Root buffer: " << buffer << '\n';
+    //std::cout << "Root buffer: " << buffer << '\n';
     blocks.clear();
     blocks = block(buffer, getBlocksize());
-    std::cout << "blocks size: " << blocks.size() << '\n';
+    //std::cout << "blocks size: " << blocks.size() << '\n';
     for (int i = 0; i < blocks.size(); i++) {
         putBlock(i, blocks[i]);
     }
