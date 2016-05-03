@@ -127,21 +127,98 @@ int Filesys::newFile(std::string file) {
 }
 
 int Filesys::rmFile(std::string file) {
-    //
+    for (int i = 0; i < fileName.size(); i++) {
+        if (fileName[i] == file) {
+            // Don't remove if firstblock is not empty.
+            if (getFirstBlock(file) != 0) {
+                throw std::invalid_argument("Cannot remove non-empty file.");
+                return 0;
+            } else {
+                // File is empty and thus removeable.
+                fileName[i] = "xxxxx";
+                fssynch();
+                return 1;
+            }
+        }
+    }
+    // File doesn't exist.
+    throw std::invalid_argument("Cannot delete file that doesn't exist.");
+    return 0;
 }
 
 int Filesys::getFirstBlock(std::string file) {
     for (int i = 0; i < fileName.size(); i++) {
-        //
+        if (fileName[i] == file) {
+            return firstBlock[i];
+        }
     }
+    // File doesn't exist.
+    throw std::invalid_argument("Cannot get first block of non-existing file.");
+    return 0;
 }
 
 int Filesys::addBlock(std::string file, std::string block) {
-
+    int allocate;
+    int fileBlock = getFirstBlock(file);
+    if (fileBlock == -1) { // No available blocks; fs full.
+        throw std::invalid_argument("Cannot add block. File doesn't exist.");
+        return 0;
+    } else if (fileBlock == 0) { // No blocks in file, OK to add.
+        allocate = fat[0];
+        if (allocate == 0) { // Disk is full.
+            throw std::invalid_argument("Disk is full, cannot add block.");
+            return -1;
+        } else {
+            fat[0] = fat[fat[0]];
+            fat[allocate] = 0;
+            // Update root
+            for (int i = 0; i < fileName.size(); i++) {
+                if (fileName[i] == file) {
+                    firstBlock[i] = allocate;
+                }
+            }
+        }
+    } else { // File already has blocks. 
+        allocate = fat[0];
+        fat[0] = fat[fat[0]];
+        fat[allocate] = 0;
+        // Follow links to change previous last block.
+        while (fat[fileBlock] != 0) {
+            fileBlock = fat[fileBlock];
+        }
+        fat[fileBlock] = allocate;
+    }
+    fssynch();
+    putBlock(allocate, block);
+    return allocate;
 }
 
 int Filesys::delBlock(std::string file, int blockNumber) {
-    //
+    int nextBlock = getFirstBlock(file);
+    // Can't delete block of empty file.
+    if (nextBlock == 0) { // File doesn't exist or is empty.
+        throw std::invalid_argument("Cannot delete block.");
+        return 0;
+    } else if (nextBlock == blockNumber) { // Block to del is first block.
+        for (int i = 0; i < fileName.size(); i++) {
+            if (fileName[i] == file) {
+                firstBlock[i] = fat[blockNumber];
+            }
+        }
+    } else { // Block to del is not first block.
+        while (fat[nextBlock] != blockNumber && fat[nextBlock] != 0) {
+            nextBlock = fat[nextBlock];
+        }
+        if (fat[nextBlock] != 0) {
+            fat[nextBlock] = fat[blockNumber];
+        } else {
+            throw std::invalid_argument("Block not in file.");
+            return 0;
+        }
+    }
+    fat[blockNumber] = fat[0];
+    fat[0] = blockNumber;
+    fssynch();
 }
 
 int Filesys::readBlock(std::string file, int blockNumber, std::string& buffer) {
