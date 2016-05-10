@@ -32,6 +32,7 @@ private:
     std::vector<std::string> fileName;
     std::vector<int> firstBlock;
     std::vector<int> fat;
+    int checkBlock(std::string file, int blockNumber);
 };
 
 #endif

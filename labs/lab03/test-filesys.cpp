@@ -22,19 +22,39 @@
 // int main() {
 //     try {
 //         Filesys fs("disk2", 16, 32);
-//         fs.newFile("test");
-//         fs.newFile("test1");
-//         std::string file1 = "Hello test. This is going to be a long long file. I hope all goes well with you.";
+//         //fs.newFile("test");
+//         //fs.newFile("test1");
+//         //std::string file1 = "Text of file 1Text of file 1Text of file 1Text of file 1Text of file 1Text of file 1Text of file 1Text of file 1Text of file 1Text of file 1";
 //         //fs.newFile("hi");
 //         //fs.test();
 //         //fs.rmFile("test;lsfj");
-//         std::vector<std::string> blocks = fs.block(file1, 32); 
-//         //fs.addBlock("test", file1);
-//         for (int i = 0; i < blocks.size(); i++) {
-
-//         }
+//         //std::vector<std::string> blocks = fs.block(file1, 32); 
+//         //int blocknum = fs.addBlock("test", file1);
+//         // if (fs.checkBlock("test", 0)) {
+//         //     std::cout << "In." << '\n';
+//         // } else {
+//         //     std::cout << "Not in." << '\n';
+//         // }
+//         // int blocknumber;
+//         // for (int i = 0; i < blocks.size(); i++) {
+//         //     blocknumber = fs.addBlock("test", blocks[i]);
+//         // }
 //         //fs.addBlock("test1", "Boom push this to test1.");
 //         //fs.delBlock("test1", 7);
+//         // std::string s;
+//         // fs.readBlock("test", 6, s);
+//         // std::cout << s << '\n';
+//         // std::cout << s.length() << '\n';
+//         // std::string newstring = "6th block.";
+//         // std::vector<std::string> blocks = fs.block(newstring, 32);
+//         // int blocknumber = fs.writeBlock("test", 6, blocks[0]);
+//         // std::string x;
+//         // fs.readBlock("test", 6, x);
+//         // std::cout << x << '\n';
+//         // std::cout << x.length() << '\n';
+
+//         // Check next block.
+//         std::cout << fs.nextBlock("test", 1) << '\n';
 //     } catch (const std::invalid_argument& e) {
 //         std::cout << e.what() << '\n';
 //         return -1;

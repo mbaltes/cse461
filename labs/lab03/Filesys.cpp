@@ -222,15 +222,33 @@ int Filesys::delBlock(std::string file, int blockNumber) {
 }
 
 int Filesys::readBlock(std::string file, int blockNumber, std::string& buffer) {
-    //
+    if (checkBlock(file, blockNumber)) { // Block is in file.
+        getBlock(blockNumber, buffer);
+        return 1;
+    } else { // Block not in file.
+        throw std::invalid_argument("Cannot read: block permission error.");
+        return 0;
+    }
 }
 
 int Filesys::writeBlock(std::string file, int blockNumber, std::string buffer) {
-    //
+    if (checkBlock(file, blockNumber)) { // Block is in file.
+        putBlock(blockNumber, buffer);
+        fssynch();
+        return 1;
+    } else { // Block not in file.
+        throw std::invalid_argument("Cannot write: block permission error.");
+        return 0;
+    }
 }
 
 int Filesys::nextBlock(std::string file, int blockNumber) {
-    //
+    if (checkBlock(file, blockNumber)) { // Block is in file.
+        return fat[blockNumber];
+    } else { // Block not in file.
+        throw std::invalid_argument("nextBlock error: block not in file.");
+        return 0;
+    }
 }
 
 std::vector<std::string> Filesys::block(std::string buffer, int b) {
@@ -273,5 +291,21 @@ void Filesys::test() {
     std::cout << "Iterating FAT vector... " << '\n';
     for (int i = 0; i < fat.size(); i++) {
         std::cout << fat[i] << '\n';
+    }
+}
+
+int Filesys::checkBlock(std::string file, int blockNumber) {
+    int nextBlock = getFirstBlock(file);
+    if (nextBlock == blockNumber) {
+        return 1;
+    } else {
+        while (fat[nextBlock] != 0) {
+            nextBlock = fat[nextBlock];
+            if (nextBlock == blockNumber) {
+                return 1;
+            }
+        }
+        // When here blockNumber is not a part of the file.
+        return 0;
     }
 }
