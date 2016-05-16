@@ -309,3 +309,13 @@ int Filesys::checkBlock(std::string file, int blockNumber) {
         return 0;
     }
 }
+
+std::vector<std::string> Filesys::ls() {
+    std::vector<std::string> flist;
+    for (int i = 0; i < fileName.size(); i++) {
+        if (fileName[i] != "xxxxx") {
+            flist.push_back(fileName[i]);
+        }
+    }
+    return flist;
+}

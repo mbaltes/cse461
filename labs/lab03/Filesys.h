@@ -26,6 +26,7 @@ public:
     int nextBlock(std::string file, int blockNumber);
     std::vector<std::string> block(std::string buffer, int b);
     void test();
+    std::vector<std::string> ls();
 private:
     int rootSize;
     int fatSize;
