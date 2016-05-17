@@ -65,5 +65,24 @@ int Shell::type(std::string file) {
 
 // Copies file1 to file2.
 int Shell::copy(std::string file1, std::string file2) {
-    //
+    int block = getFirstBlock(file1);
+    if (block == -1) {
+        std::cout << "No such file to copy." << '\n';
+        return -1;
+    } else if (getFirstBlock(file2) > 0) {
+        std::cout << "Cannot overwrite file." << "\n";
+        return -1;
+    }
+    newFile(file2);
+    while (block != 0) {
+        std::string buffer;
+        readBlock(file1, block, buffer);
+        addBlock(file2, buffer);
+        block = nextBlock(file1, block);
+    }
+    return 1;
+} 
+
+void Shell::shellTest() {
+    test();
 }

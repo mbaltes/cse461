@@ -9,6 +9,7 @@
 #include <sstream>
 #include <iostream>
 #include <iomanip>
+#include <stdlib.h>
 
 Filesys::Filesys(std::string diskName, int numberOfBlocks, int blockSize) 
     : Sdisk(diskName, numberOfBlocks, blockSize) {
@@ -70,7 +71,10 @@ Filesys::Filesys(std::string diskName, int numberOfBlocks, int blockSize)
 }
 
 int Filesys::fsclose() {
-    //
+    // Sync disk and shut it down.
+    fssynch();
+    std::cout << "Filesys shutting down." << '\n';
+    exit(1);
 }
 
 int Filesys::fssynch() {
@@ -153,7 +157,7 @@ int Filesys::getFirstBlock(std::string file) {
         }
     }
     // File doesn't exist.
-    throw std::invalid_argument("Cannot get first block of non-existing file.");
+    //throw std::invalid_argument("Cannot get first block of non-existing file.");
     return 0;
 }
 

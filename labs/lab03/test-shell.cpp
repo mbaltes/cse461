@@ -18,10 +18,12 @@ int main() {
     std::string op1, op2;
 
     while (command != "quit") {
+        // Testing
+        //sh.test();
         command.clear();
         op1.clear();
         op2.clear();
-        std::cout << "$";
+        std::cout << "$ ";
         std::getline(std::cin, s);
         int firstblank=s.find(' ');
         if (firstblank < s.length()) s[firstblank]='#';
@@ -48,7 +50,9 @@ int main() {
             sh.type(op1);
         }
         if (command == "copy") {
-            // The variable op1 is the source file and the variable op2 is the destination file.
+            // The variable op1 is the source file and the variable op2 is the 
+            // destination file.
+            sh.copy(op1, op2);
         }
     }
     return 0;
