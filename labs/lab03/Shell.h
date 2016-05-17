@@ -18,6 +18,8 @@ public:
     int del(std::string file); // Deletes the file.
     int type(std::string file); // Lists the contents of the file.
     int copy(std::string file1, std::string file2); // Copies file1 to file2.
+private:
+    int blockSize;
 };
 
 #endif
