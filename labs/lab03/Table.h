@@ -22,7 +22,7 @@ private:
     std::string indexFile;
     int numberOfRecords;
     //Filesys fileSystem;
-    std::string indexSearch(int value);
+    int indexSearch(int value);
     std::vector<int> key;
     std::vector<int> blockID;
 };
